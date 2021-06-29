@@ -15,15 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
+from rest_framework.routers import SimpleRouter
+from measurements.views import ProjectViewSet, MeasurementViewSet
 
-# TODO: настройте роутер и подключите `ProjectViewSet` и `MeasurementViewSet`
-from measurements import views as measurements_views
-
-# router = routers.DefaultRouter()
-# router.register('measurements', measurements_views.MeasurementViewSet)
+router = SimpleRouter()
+router.register("project", ProjectViewSet, basename="project")
+router.register("measurement", MeasurementViewSet, basename="measurement")
 
 urlpatterns = [
-    path('api/v1/', include('measurements.urls')),
     path('admin/', admin.site.urls),
+    path('api/v1/', include(router.urls)),
+
 ]
